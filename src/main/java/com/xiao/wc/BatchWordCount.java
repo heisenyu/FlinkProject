@@ -1,5 +1,6 @@
 package com.xiao.wc;
 
+import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.operators.AggregateOperator;
@@ -30,7 +31,10 @@ public class BatchWordCount {
             for (String word : words) {
                 out.collect(Tuple2.of(word, 1L));
             }
-        }).returns(Types.TUPLE(Types.STRING,Types.LONG));
+        })
+//                .returns(Types.TUPLE(Types.STRING,Types.LONG));
+                .returns(new TypeHint<Tuple2<String, Long>>(){});
+
         //wordAndOne.print();
 
         // 4.按照word进行分组
